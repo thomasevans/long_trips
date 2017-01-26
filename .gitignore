@@ -25,3 +25,7 @@ vignettes/*.pdf
 missing_nests.csv
 long_trips.RData
 trip_distances.png
+gps_points_long_trips.csv
+long_trip_maps.pdf
+long_trips_summary.csv
+test.map.pdf
