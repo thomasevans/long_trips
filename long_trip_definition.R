@@ -9,7 +9,7 @@
 library(RODBC)
 # library(plyr)
 library(dplyr)
-library(ggplot2)
+# library(ggplot2)
 
 # Load in trip summary data -----
 # Establish a connection to the database
