@@ -23,3 +23,5 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 missing_nests.csv
+long_trips.RData
+trip_distances.png
