@@ -37,6 +37,23 @@ str(gps.points)
 # Load trip data
 load("long_trips.Rdata")
 
+str(long_trips$trip_id)
+long_trips <- filter(long_trips, !(trip_id %in% c(1076,1623,1711)))
+
+
+# Load sex data
+sex.tab <- read.csv("simplified_sex_ring_number_only.csv",
+                    header = TRUE)
+# sex.tab[duplicated(sex.tab$ring_number),]
+
+# Combine with long_trips dataframe
+long_trips.new <- inner_join(long_trips, sex.tab)
+nrow(long_trips.new)
+length(unique(long_trips.new$trip_id))
+
+table(long_trips.new$Location, long_trips.new$key_name)
+
+long_trips <- long_trips.new
 
 # Filter GPS data ------
 gps.points <- filter(gps.points, trip_id %in% long_trips$trip_id)
@@ -49,6 +66,50 @@ write.csv(gps.points, file = "gps_points_long_trips.csv",
 # Put summary data out to file -----
 write.csv(long_trips, file = "long_trips_summary.csv",
           row.names = FALSE)
+
+
+
+# Split GPS data by colony and individual ------
+# Split by colony first
+gps.points.fag <- filter(gps.points, key_name == "V_FAGELSUNDET")
+# unique(gps.points$key_name)
+
+write.csv(gps.points.fag, file = "gps_points_long_trips_fagelsundet.csv",
+          row.names = FALSE)
+
+
+gps.points.sk <- filter(gps.points, key_name == "LBBG_STKARLSO")
+# unique(gps.points$key_name)
+
+write.csv(gps.points.sk, file = "gps_points_long_trips_stora_karlso.csv",
+          row.names = FALSE)
+
+
+# Individuals:
+individuals <- unique(gps.points$ring_number)
+# i <- 1
+for(i in 1:length(individuals)){
+  gps.points.f <- filter(gps.points, ring_number == individuals[i])
+  # unique(gps.points$key_name)
+  
+  sex <- long_trips$Sex[long_trips$ring_number == individuals[i]][1]
+  
+  if(gps.points.f$key_name[1] == "LBBG_STKARLSO") {col <- "stora_karlso"}else if(
+    gps.points.f$key_name[1] == "V_FAGELSUNDET"
+  ){col <- "fagelsundet"} else col <- "NA"
+  
+  write.csv(gps.points.f, file = 
+              paste("gps_points_long_trips_",
+                    col, "_",
+                    sex,
+                    "_",
+                    individuals[i],
+                    ".csv"),
+            row.names = FALSE
+            )
+  
+}
+
 
 
 
