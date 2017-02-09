@@ -19,6 +19,7 @@ gps.db <- odbcConnectAccess2007('D:/Dropbox/tracking_db/lbbg_all_db/lbbg_all.acc
 sqlTables(gps.db)
 
 
+
 # Load in GPS point data
 gps.points <- sqlQuery(gps.db,
                        query =
@@ -45,6 +46,15 @@ str(gps.points)
 trips.df <- gps.points[,c(1,7,8,12)] %>% group_by(trip_id) %>% do(head(.,1))
 
 
+
+
+# GPS points to filter out (bad locations) ----
+gps.points <- dplyr::filter(gps.points, !(device_info_serial %in% c(645,522,522) &
+                                            date_time %in% as.POSIXct(c("2012-06-14 04:32:41 UTC",
+                                                                        "2012-07-20 13:00:32 UTC",
+                                                                        "2012-07-20 13:02:26 UTC"),
+                                                                      tz = "UTC")
+))
 
 
 # Use dplyr + plyr?? to summarise foraging trips -----
@@ -108,7 +118,7 @@ str(trips.export)
 # Export to DB ------
 #export trip information to the database
 #will be neccessary to edit table in Access after to define data-types and primary keys and provide descriptions for each variable.
-sqlSave(gps.db, trips.export, tablename = "lund_lbbg_gps_trips",
+sqlSave(gps.db, trips.export, tablename = "lund_lbbg_gps_trips2",
         append = FALSE,
         rownames = FALSE, colnames = FALSE, verbose = FALSE,
         safer = TRUE, addPK = FALSE,

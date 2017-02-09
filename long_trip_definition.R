@@ -23,7 +23,7 @@ gps.db <- odbcConnectAccess2007('D:/Dropbox/tracking_db/lbbg_all_db/lbbg_all.acc
 trips <- sqlQuery(gps.db,
                        query =
                          "SELECT DISTINCT g.*
-                       FROM lund_lbbg_gps_trips AS g
+                       FROM lund_lbbg_gps_trips2 AS g
                        ORDER BY g.device_info_serial, g.trip_id;
                        ",
                        as.is = TRUE)

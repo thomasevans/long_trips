@@ -34,11 +34,28 @@ gps.points$date_time <-  as.POSIXct(strptime(gps.points$date_time,
 str(gps.points)
 
 
+# GPS points to filter out (bad locations) ----
+gps.points <- dplyr::filter(gps.points, !(device_info_serial %in% c(645,522,522) &
+                                    date_time %in% as.POSIXct(c("2012-06-14 04:32:41 UTC",
+                                                              "2012-07-20 13:00:32 UTC",
+                                                              "2012-07-20 13:02:26 UTC"),
+                                                            tz = "UTC")
+                                  ))
+                     
+# "2012-06-14 04:32:41 UTC" & device_info_serial == 645
+# 
+# "2012-07-20 13:00:32 UTC" "2012-07-20 13:02:26 UTC" both device_info_serial == 522
+
+
+
+# Load more data ------
+
 # Load trip data
 load("long_trips.Rdata")
 
 str(long_trips$trip_id)
-long_trips <- filter(long_trips, !(trip_id %in% c(1076,1623,1711)))
+long_trips <- filter(long_trips, !(trip_id %in% c(1076,1623,1711,
+                                                  2070,2072)))
 
 
 # Load sex data
@@ -123,7 +140,7 @@ i <- 1
 
 
 # ?pdf
-pdf("long_trip_maps.pdf")
+pdf("long_trip_maps2.pdf")
     # , paper = "a4")
 # xlim = range(points.f$longitude),
 # ylim = range(points.f$latitude)
@@ -133,8 +150,11 @@ for(i in 1:nrow(long_trips)){
   trip_idx <- long_trips$trip_id[i]
   
   points.f <- filter(gps.points, trip_id == trip_idx)
-      
-      
+  #     
+  # points.f <- filter(gps.points, trip_id == 2072)
+  # 
+  #   points.f$device_info_serial[1]
+  #   
     
     par( mar = c(1.5, 2, .5, .5))
     
@@ -191,10 +211,27 @@ for(i in 1:nrow(long_trips)){
     points(x = points.f$longitude, y = points.f$latitude)
     
     
+    # Locating bad fixes
+    # x <- (points.f$longitude <19.3) & (points.f$latitude >57) &
+    #   (points.f$longitude >18.8) & (points.f$latitude <57.5) 
+    # summary(x)
+    # 
+    # points.f$date_time[x]
+    # 
+    # points(points.f$longitude[x],
+    #        points.f$latitude[x],
+    #        pch = 23,
+    #        col = "red", bg = NA,
+    #        cex = 1.5)
+    # 
+    
+    
     # Add colony locations:
     points(c(17.93, 17.972088), c(60.63, 57.284804), pch = 23,
            col = "red", bg = NA,
            cex = 1.5)
+    
+  
     
     
     legend("topleft",

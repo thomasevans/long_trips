@@ -30,6 +30,6 @@ long_trip_maps.pdf
 long_trips_summary.csv
 test.map.pdf
 .Rproj.user
-
 # All csv (data) files
 *.csv
+long_trip_maps2.pdf
