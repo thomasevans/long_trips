@@ -54,8 +54,8 @@ gps.points <- dplyr::filter(gps.points, !(device_info_serial %in% c(645,522,522)
 load("long_trips.Rdata")
 
 str(long_trips$trip_id)
-long_trips <- filter(long_trips, !(trip_id %in% c(1076,1623,1711,
-                                                  2070,2072)))
+long_trips <- filter(long_trips, !(trip_id %in% c(1076,1623,1711)))
+                                                  # 2070,2072)))
 
 
 # Load sex data
@@ -236,6 +236,12 @@ for(i in 1:nrow(long_trips)){
     
     legend("topleft",
            paste("Trip: ", long_trips$ring_number[i], "_", trip_idx, sep = ""),
+           bty="n",
+           text.col  = "red") 
+    
+    
+    legend("topright",
+           paste("Sex: ", long_trips$Sex[i], sep = ""),
            bty="n",
            text.col  = "red") 
     
