@@ -33,3 +33,8 @@ test.map.pdf
 # All csv (data) files
 *.csv
 long_trip_maps2.pdf
+openstreetmap_coast_polygon.RData
+SWE_adm0.RData
+map_fagelsundet.pdf
+map_overview.pdf
+map_stora_karlso.pdf
