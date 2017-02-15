@@ -170,7 +170,7 @@ trips.sk <- filter(trips_to_keep, key_name == "LBBG_STKARLSO")
 str(trips.sk)
 
 for(i in 1:ceiling(length(unique(trips.sk$ring_year))/10)){
-  fag_plot <- ggplot(trips.sk, aes(x = (j_date-(duration_day/2)),
+  fag_plot <- ggplot(trips.sk, aes(x = (j_date),
                                    y = coldist_max/1000,
                                    colour = long,
                                    fill = long))+
@@ -197,12 +197,12 @@ for(i in 1:ceiling(length(unique(trips.sk$ring_year))/10)){
 
 
 
-# Stora Karlsö only
+# Fågelsundet only
 trips.sk <- filter(trips_to_keep, key_name == "V_FAGELSUNDET")
 str(trips.sk)
 
 for(i in 1:ceiling(length(unique(trips.sk$ring_year))/10)){
-  fag_plot <- ggplot(trips.sk, aes(x = (j_date-(duration_day/2)),
+  fag_plot <- ggplot(trips.sk, aes(x = (j_date),
                                    y = coldist_max/1000,
                                    colour = long,
                                    fill = long))+
