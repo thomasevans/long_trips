@@ -38,3 +38,8 @@ SWE_adm0.RData
 map_fagelsundet.pdf
 map_overview.pdf
 map_stora_karlso.pdf
+Fagelsundet_birds_trip_duration_date_1.pdf
+# All pdf files
+*.pdf
+# All svg files
+*.svg
