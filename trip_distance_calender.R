@@ -82,8 +82,24 @@ trips_to_keep$j_date <- sapply(trips_to_keep$start_time,
 # get trip year
 trips_to_keep$year <- format(trips_to_keep$start_time,'%Y') 
 
+
+# Load sex data
+sex.tab <- read.csv("simplified_sex_ring_number_only.csv",
+                    header = TRUE)
+# sex.tab[duplicated(sex.tab$ring_number),]
+
+# Combine with long_trips dataframe
+trips_to_keep <- inner_join(trips_to_keep, sex.tab)
+
+
+trips_to_keep$Site <- trips_to_keep$key_name
+trips_to_keep$Site[trips_to_keep$Site == "LBBG_STKARLSO"] <- "SKA"
+trips_to_keep$Site[trips_to_keep$Site == "V_FAGELSUNDET"] <- "FÅG"
+
 # ID (ring_number + year)
-trips_to_keep$ring_year <- paste(trips_to_keep$ring_number,"_",
+trips_to_keep$ring_year <- paste(trips_to_keep$Site,"_",
+                                 trips_to_keep$Sex,"_",
+                                 trips_to_keep$ring_number,"_",
                                  trips_to_keep$year, sep = "")
 
 # Duration days
@@ -224,6 +240,34 @@ for(i in 1:ceiling(length(unique(trips.sk$ring_year))/10)){
 }
 
 
+
+
+# Combined ----
+# trips_to_keep$Site <- trips_to_keep$key_name
+# trips_to_keep$Site[trips_to_keep$Site == "LBBG_STKARLSO"] <- "Stora Karlsö"
+# trips_to_keep$Site[trips_to_keep$Site == "V_FAGELSUNDET"] <- "Fågelsundet"
+
+for(i in 1:ceiling(length(unique(trips_to_keep$ring_year))/11)){
+  fag_plot <- ggplot(trips_to_keep, aes(x = (j_date),
+                                   y = coldist_max/1000,
+                                   colour = long,
+                                   fill = long))+
+    # width = duration_day))+
+    # ,
+    # position = -(duration_day/2))) +
+    geom_bar(stat="identity", width = 0.5,
+             alpha = 0.6) + 
+    # facet_grid(ring_year~.) +
+    facet_grid_paginate(ring_year~., ncol = 1, nrow = 11, page = i)+
+    labs(x = "Date", y = "Maximum distance (km)")+
+    scale_x_continuous(breaks=dates_j,
+                       labels=c("April","May", "June", "July", "August",
+                                "September")) +
+    theme_new
+  ggsave(paste("Karlso_birds_trip_duration_date_", i, ".pdf", sep = ""),
+         width = 9.41, height = 6.65)
+  # ggsave("Karlso_birds_trip_duration_date.pdf", width = 10, height = 12)
+}
 
 
 # Make a unique table of deployments -----
