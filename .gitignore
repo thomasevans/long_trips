@@ -43,3 +43,5 @@ Fagelsundet_birds_trip_duration_date_1.pdf
 *.pdf
 # All svg files
 *.svg
+# Map data files
+*.rds
