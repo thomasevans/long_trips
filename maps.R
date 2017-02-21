@@ -17,6 +17,39 @@ load("openstreetmap_coast_polygon.RData")
 
 
 
+# Map data
+map.data <- list()
+
+# list of map files
+files <- list.files(pattern = "\\.rds$",
+                    all.files = FALSE,
+                    full.names = FALSE, recursive = FALSE,
+                    ignore.case = FALSE, include.dirs = FALSE)
+
+for(i in 1:length(files)){
+  map.data[[i]] <- readRDS(paste(files[i]))
+  # map.data[[i]]$data$place <- "baltic_country"
+}
+# str(map.data[[i]])
+
+
+# Combine to single spatialpolygondataframe
+all_coast <- do.call(raster::bind, map.data) 
+# plot(all_coast)
+
+# Trim to study area (whole Baltic sea + a bit more)
+all_coast_baltic <- raster::crop(all_coast, raster::extent(c(10, 32, 52, 69)))
+
+# Check how this looks
+# map(all_coast_baltic)
+
+# Trim to study area (whole Baltic sea + a bit more)
+all_coast_baltic2 <- raster::crop(all_coast_baltic, raster::extent(c(11, 28, 53.5, 65)))
+
+
+
+
+
 # Alpha channel
 addalpha <- function(colors, alpha=1.0) {
   r <- col2rgb(colors, alpha=T)
@@ -27,7 +60,7 @@ addalpha <- function(colors, alpha=1.0) {
 }
 
 # Large overview map -------
-pdf("map_overview.pdf", width = 4, height = 8,
+pdf("map_overview_hi.pdf", width = 4, height = 8,
     useDingbats = FALSE)
 
   par( mar = c(1.5, 2, .5, .5))
@@ -44,13 +77,14 @@ pdf("map_overview.pdf", width = 4, height = 8,
   #      main = "",
   #      lty = 0)
   
-  map(database = "world",
+  map(all_coast_baltic2,
       xlim = xlims,
       ylim = ylims,
       # col= "dark grey", bg = NA,
       # main = title.text,
+      # main = "",
       main = "",
-      # lty = 0,
+      lwd = 0.5,
       # bg = NA,
       fill = TRUE,
       col = "grey")
