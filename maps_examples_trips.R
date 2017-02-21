@@ -68,6 +68,9 @@ gps.points <- dplyr::filter(gps.points, !(device_info_serial %in% c(645,522,522)
                                                                         "2012-07-20 13:00:32 UTC",
                                                                         "2012-07-20 13:02:26 UTC"),
                                                                       tz = "UTC")))
+
+
+gps.points <- dplyr::filter(gps.points, !(latitude > 63))
                                           
 
 # Map data
@@ -256,5 +259,204 @@ legend("topright", "8114316", bty="n", cex = 1.4, adj = c(0,-0.4))
 # # ?text
 # Add map scale bar
 map.scale2(x = 17.6, y = 54.2, ratio = FALSE, lwd.line = 1.5,
+           relwidth = 0.35, cex = 0.6)
+dev.off()
+
+
+
+
+
+
+
+
+
+
+
+# Example Marine trips ---------
+# Plot example map 1 (Fågelsundet) -----
+# Colour -----
+# http://colorbrewer2.org/?type=qualitative&scheme=Dark2&n=5
+# 6-class Dark2
+cols6 <- c('#1b9e77','#d95f02','#7570b3','#e7298a','#66a61e','#e6ab02')
+col6.alpha <- addalpha(cols6, 0.6)
+
+cols4 <- c('#1b9e77','#d95f02','#7570b3','#e7298a')
+col4.alpha <- addalpha(cols4, 0.6)
+
+
+# http://colorbrewer2.org/?type=qualitative&scheme=Paired&n=12
+# 12-class Paired
+# http://colorbrewer2.org/?type=qualitative&scheme=Paired&n=5
+# 5-class Dark2 (3 selected)
+
+# 12-class Dark2 + 3 of 5-class Dark2
+cols15 <- c('#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928', '#e7298a', '#d95f02', '#1b9e77')
+col15.alpha <- addalpha(cols15, 0.6)
+
+
+
+pdf("map_combined_marine_no_gotska.pdf", width = 8, height = 5)
+# png("map_combined._marine.png", width = 8, height = 5,
+    # res = 600, units = "in")
+
+
+
+# Side by side
+par(mfrow=c(1,2))
+# plot(1:10)
+
+# Set plot margins
+par( mar = c(1.5, 2, .5, .5))
+
+
+
+# Trim to study area (whole Baltic sea + a bit more)
+all_coast_baltic2 <- raster::crop(all_coast_baltic, raster::extent(c(11, 28, 54, 65)))
+
+
+
+# Ring_number
+# trips_ids <- c(1613,	1614,	1617,	1623,	2169,	3879)
+trips_ids <- c(1613,	1623,	2169,	3879)
+
+# trips_ids <- long_trips$trip_id[long_trips$ring_number == ring_number]
+
+gps.points.f <- filter(gps.points, trip_id %in% trips_ids)
+
+xlim <- range(gps.points.f$longitude)
+ylim <- range(gps.points.f$latitude)
+
+xlim <- xlim + c(-0.5,0.5)
+ylim <- ylim + c(-0.3,0.3)
+
+plot(all_coast_baltic2, xlim = xlim,
+     ylim = ylim, col= "dark grey", bg = NA,
+     # main = title.text,
+     border = "black",
+     lwd = 0.2,
+     main = "",
+     lty = 1)
+
+# Add axis
+axis(side=(1),las=1, cex.lab = 0.6, cex.axis =0.5, cex = 0.5, padj = -2, hadj = NA)
+axis(side=(2),las=1, cex.lab = 0.6, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0.6)
+
+# Outline box
+box(lwd=2)
+
+
+# Plot GPS data
+
+for(i in 1:length(trips_ids)){
+  
+  gps.sub <- filter(gps.points.f, trip_id == trips_ids[i])
+  
+  n <- length(gps.sub$long)
+  segments(gps.sub$long[-1], gps.sub$lat[-1],
+           gps.sub$long[1:n-1], gps.sub$lat[1:n-1],
+           col = col4.alpha[i], lty = 1, lwd = 1)
+  
+}
+
+# Add colony locations:
+points(c(17.93, 17.972088),
+       c(60.63, 57.284804), pch = 23,
+       col = "black", bg = addalpha("white", alpha = 0.5),
+       cex = 1.5, lwd = 2)
+
+# ?legend
+
+
+# legend("topleft", "A)", bty="n", cex = 1.4) 
+# legend("topright", "8120614", bty="n", cex = 1.4) 
+legend("topleft", "A", bty="n", cex = 1.8, adj = c(2,-0.4))
+legend("topright", "Fågelsundet", bty="n", cex = 1.4, adj = c(0,-0.4))
+# 
+# legend(x = "topright",
+#        legend = c("8120614"),
+#        bty = "n",
+#        cex = 1.4)
+
+# Add map scale bar
+map.scale2(x = 19, y = 58.9, ratio = FALSE, lwd.line = 1.5,
+           relwidth = 0.35, cex = 0.6)
+# dev.off()
+
+
+# Stora Karlsö ----
+# Ring_number
+trips_ids <- c(103, 130, 131, 136, 426, 828, 1001, 1318, 1322, 1329, 1733, 1820, 2111, 2946, 2960)
+# trips_ids <- long_trips$trip_id[long_trips$ring_number == ring_number]
+
+gps.points.f <- filter(gps.points, trip_id %in% trips_ids)
+
+
+all_coast_baltic2 <- raster::crop(all_coast_baltic, raster::extent(c(14, 22, 53.5, 59)))
+
+# pdf("map_stora_karlso_8114316.pdf", width = 4, height = 5)
+
+# Set plot margins
+par( mar = c(1.5, 2, .5, .5))
+
+xlim <- range(gps.points.f$longitude)
+ylim <- range(gps.points.f$latitude)
+
+xlim <- xlim + c(-0.5,0.5)
+ylim <- ylim + c(-0.3,0.3)
+
+plot(all_coast_baltic2, xlim = xlim,
+     ylim = ylim, col= "dark grey", bg = NA,
+     # main = title.text,
+     border = "black",
+     lwd = 0.2,
+     main = "",
+     lty = 1)
+
+# Add axis
+axis(side=(1),las=1, cex.lab = 0.6, cex.axis =0.5, cex = 0.5, padj = -2, hadj = NA)
+axis(side=(2),las=1, cex.lab = 0.6, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0.6)
+
+# Outline box
+box(lwd=2)
+
+
+# Plot GPS data
+
+for(i in 1:length(trips_ids)){
+  
+  gps.sub <- filter(gps.points.f, trip_id == trips_ids[i])
+  
+  n <- length(gps.sub$long)
+  segments(gps.sub$long[-1], gps.sub$lat[-1],
+           gps.sub$long[1:n-1], gps.sub$lat[1:n-1],
+           col = col15.alpha[i], lty = 1, lwd = 1)
+  
+}
+
+# Add colony locations:
+points(c(17.93, 17.972088),
+       c(60.63, 57.284804), pch = 23,
+       col = "black", bg = addalpha("white", alpha = 0.5),
+       cex = 1.5, lwd = 2)
+
+# legend(x = "topleft",
+#        legend = c("B"),
+#        bty = "n",
+#        cex = 1.4)
+# 
+# legend(x = "topright",
+#        legend = c("8114316"),
+#        bty = "n",
+#        cex = 1.4)
+
+legend("topleft", "B", bty="n", cex = 1.8, adj = c(2,-0.4))
+legend("topright", "Stora Karlsö", bty="n", cex = 1.4, adj = c(0,-0.4))
+# ?legend
+# usr <- par( "usr" )
+# text( usr[ 1 ], usr[ 4 ], "B",    pos = c(1,4), cex = 1.6)
+# text( usr[ 2 ], usr[ 4 ], "8114316",     pos = c(1,2), cex = 1.4)
+# # ?text
+# Add map scale bar
+map.scale2(x = 18.7, y = 54.5, ratio = FALSE, lwd.line = 1.5,
            relwidth = 0.35, cex = 0.6)
 dev.off()
