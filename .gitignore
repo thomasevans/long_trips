@@ -45,3 +45,6 @@ Fagelsundet_birds_trip_duration_date_1.pdf
 *.svg
 # Map data files
 *.rds
+distance_travelled_tortoisity.R
+# PNG figures
+*.png
