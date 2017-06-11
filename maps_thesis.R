@@ -216,3 +216,61 @@ points(c(17.93, 17.972088),
        cex = 1.5, lwd = 2)
 
 dev.off()
+
+
+
+
+
+# Large overview map 2 -------
+pdf("map_overview_niche_paper.pdf", width = 4, height = 8,
+    useDingbats = FALSE)
+png("map_overview_niche_paper.png", width = 3, height = 6,
+    units= "in", res = 300)
+
+par( mar = c(1.5, 2, .5, .5))
+
+# Basic map
+xlims <- c(-5, 28)
+ylims <- c(30, 73)
+
+
+# 
+# plot(gadm_clip, xlim = xlim,
+#      ylim = ylim, col= "dark grey", bg = NA,
+#      # main = title.text,
+#      main = "",
+#      lty = 0)
+# map('worldHires')
+
+
+map('worldHires',
+    xlim = xlims,
+    ylim = ylims,
+    # col= "dark grey", bg = NA,
+    # main = title.text,
+    # main = "",
+    main = "",
+    lwd = 1.5,
+    # bg = NA,
+    fill = TRUE,
+    col = "grey",
+    border = "grey40")
+# ?map
+axis(side=(1),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = -2, hadj = NA)
+axis(side=(2),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0.6)
+
+## Scale bar and axis
+box(lwd=2.5)
+
+# Add map scale bar
+map.scale2(0, 72, ratio = FALSE, lwd.line = 1.5,
+           relwidth = 0.35, cex = 0.8)
+
+
+# Add colony locations + Lund:
+points(c(17.93),
+       c(60.63), pch = 23,
+       col = "black", bg = addalpha("white", alpha = 0.5),
+       cex = 2.5, lwd = 2)
+
+dev.off()
