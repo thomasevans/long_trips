@@ -40,6 +40,11 @@ all_coast <- do.call(raster::bind, map.data)
 # Trim to study area (whole Baltic sea + a bit more)
 all_coast_baltic <- raster::crop(all_coast, raster::extent(c(10, 32, 52, 69)))
 
+
+save(all_coast_baltic, file = "baltic_coast_and_islands.RData")
+
+# plot(all_coast_baltic)
+
 # Check how this looks
 # map(all_coast_baltic)
 
