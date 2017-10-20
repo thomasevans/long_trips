@@ -235,8 +235,10 @@ dev.off()
 # By year period ------
 
 # Adults only:
-pdf("rings_lines_col_days365_period2000_new.pdf", width = 6, height = 6,
+pdf("rings_lines_col_days365_period2000_new.pdf", width = 5, height = 6,
     useDingbats = FALSE)
+svg("rings_lines_col_days365_period2000_new.svg", width = 5, height = 6)
+
 par(mfrow=c(2,2))
 par(mar = c(1.5, 2, .5, .5))
 map(all_coast_baltic,
@@ -260,9 +262,9 @@ n_adult <- sum(f)
 for(i in 1:n_adult){
 
   if(ring_data$Days[f][i]<365){
-    col.use <- "red"
-  }else col.use <- "black"
-  
+    ltyl <- 4
+  }else ltyl <- 1
+  col.use <- "black"
   
   # plot start location
   points(ring_data$Ringing.Long..deg.E.[f][i],
@@ -273,7 +275,9 @@ for(i in 1:n_adult){
            ring_data$Ringing.Lat..deg.N.[f][i],
            ring_data$Recovery.Long..deg.E.[f][i],
            ring_data$Recovery.Lat..degN.[f][i],
-           col = addalpha(col.use,0.5))
+           col = addalpha(col.use,0.5),
+           lty = ltyl,
+           lwd = 1.5)
   points(ring_data$Recovery.Long..deg.E.[f][i],
          ring_data$Recovery.Lat..degN.[f][i],
          pch = 0,
@@ -286,11 +290,12 @@ for(i in 1:n_adult){
 box(lwd=1.5)
 
 # Add map scale bar
-map.scale2(ratio = FALSE, lwd.line = 1.5,
+map.scale2(x = 10, y = 52.8, ratio = FALSE, lwd.line = 1.5,
            relwidth = 0.35, cex = 0.8)
 
-legend("topleft", "A", bty="n", cex = 1.8) 
 
+
+text(x = 10, y = 65.5, "A", cex = 1.8) 
 
 # Nestling early
 par( mar = c(1.5, 2, .5, .5))
@@ -314,9 +319,14 @@ n_adult <- sum(f)
 
 for(i in 1:n_adult){
   # >1 year (days)
+  # if(ring_data$Days[f][i]<365){
+  #   col.use <- "red"
+  # }else col.use <- "black"
+  
   if(ring_data$Days[f][i]<365){
-    col.use <- "red"
-  }else col.use <- "black"
+    ltyl <- 4
+  }else ltyl <- 1
+  col.use <- "black"
   
   # plot start location
   points(ring_data$Ringing.Long..deg.E.[f][i],
@@ -327,7 +337,9 @@ for(i in 1:n_adult){
            ring_data$Ringing.Lat..deg.N.[f][i],
            ring_data$Recovery.Long..deg.E.[f][i],
            ring_data$Recovery.Lat..degN.[f][i],
-           col = addalpha(col.use,0.5))
+           col = addalpha(col.use,0.5),
+           lty = ltyl,
+           lwd = 1.5)
   points(ring_data$Recovery.Long..deg.E.[f][i],
          ring_data$Recovery.Lat..degN.[f][i],
          pch = 0,
@@ -340,11 +352,12 @@ for(i in 1:n_adult){
 box(lwd=1.5)
 
 # Add map scale bar
-map.scale2(ratio = FALSE, lwd.line = 1.5,
+map.scale2(x = 10, y = 52.8, ratio = FALSE, lwd.line = 1.5,
            relwidth = 0.35, cex = 0.8)
 
-legend("topleft", "B", bty="n", cex = 1.8) 
 
+
+text(x = 10, y = 65.5, "B", cex = 1.8) 
 
 # Adult late
 par( mar = c(1.5, 2, .5, .5))
@@ -368,10 +381,14 @@ n_adult <- sum(f)
 
 for(i in 1:n_adult){
 
+  # if(ring_data$Days[f][i]<365){
+  #   col.use <- "red"
+  # }else col.use <- "black"
+  # 
   if(ring_data$Days[f][i]<365){
-    col.use <- "red"
-  }else col.use <- "black"
-  
+    ltyl <- 4
+  }else ltyl <- 1
+  col.use <- "black"
   
   # plot start location
   points(ring_data$Ringing.Long..deg.E.[f][i],
@@ -382,7 +399,9 @@ for(i in 1:n_adult){
            ring_data$Ringing.Lat..deg.N.[f][i],
            ring_data$Recovery.Long..deg.E.[f][i],
            ring_data$Recovery.Lat..degN.[f][i],
-           col = addalpha(col.use,0.5))
+           col = addalpha(col.use,0.5),
+           lty = ltyl,
+           lwd = 1.5)
   points(ring_data$Recovery.Long..deg.E.[f][i],
          ring_data$Recovery.Lat..degN.[f][i],
          pch = 0,
@@ -395,14 +414,18 @@ for(i in 1:n_adult){
 box(lwd=1.5)
 
 # Add map scale bar
-map.scale2(ratio = FALSE, lwd.line = 1.5,
+map.scale2(x = 10, y = 52.8, ratio = FALSE, lwd.line = 1.5,
            relwidth = 0.35, cex = 0.8)
 
-legend("topleft", "C", bty="n", cex = 1.8) 
 
+
+text(x = 10, y = 65.5, "C", cex = 1.8) 
 
 # Nestling late
 par( mar = c(1.5, 2, .5, .5))
+
+# par(mfrow=c(1,1))
+
 map(all_coast_baltic,
     xlim = extent.map[1:2] + c(0.2,-0.2),
     ylim = extent.map[3:4] + c(0.4,-0.1),
@@ -422,9 +445,14 @@ n_adult <- sum(f)
 
 for(i in 1:n_adult){
  
+  # if(ring_data$Days[f][i]<365){
+  #   col.use <- "red"
+  # }else col.use <- "black"
+  
   if(ring_data$Days[f][i]<365){
-    col.use <- "red"
-  }else col.use <- "black"
+    ltyl <- 4
+  }else ltyl <- 1
+  col.use <- "black"
   
   
   # plot start location
@@ -436,7 +464,9 @@ for(i in 1:n_adult){
            ring_data$Ringing.Lat..deg.N.[f][i],
            ring_data$Recovery.Long..deg.E.[f][i],
            ring_data$Recovery.Lat..degN.[f][i],
-           col = addalpha(col.use,0.5))
+           col = addalpha(col.use,0.5),
+           lty = ltyl,
+           lwd = 1.5)
   points(ring_data$Recovery.Long..deg.E.[f][i],
          ring_data$Recovery.Lat..degN.[f][i],
          pch = 0,
@@ -449,11 +479,13 @@ for(i in 1:n_adult){
 box(lwd=1.5)
 
 # Add map scale bar
-map.scale2(ratio = FALSE, lwd.line = 1.5,
+map.scale2(x = 10, y = 52.8, ratio = FALSE, lwd.line = 1.5,
            relwidth = 0.35, cex = 0.8)
 
-legend("topleft", "D", bty="n", cex = 1.8) 
 
+
+text(x = 10, y = 65.5, "D", cex = 1.8) 
+# ?legend
 
 dev.off()
 
