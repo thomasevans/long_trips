@@ -151,7 +151,7 @@ box(lwd=1.5)
 map.scale2(ratio = FALSE, lwd.line = 1.5,
            relwidth = 0.35, cex = 0.8)
 
-legend("topleft", "A)", bty="n", cex = 2) 
+legend("topleft", "A", bty="n", cex = 2.5) 
 
 # dev.off()
 
@@ -235,25 +235,21 @@ dev.off()
 # By year period ------
 
 # Adults only:
-pdf("rings_lines_col_days365_period2000.pdf", width = 12, height = 13,
+pdf("rings_lines_col_days365_period2000_new.pdf", width = 6, height = 6,
     useDingbats = FALSE)
 par(mfrow=c(2,2))
-par( mar = c(1.5, 2, .5, .5))
+par(mar = c(1.5, 2, .5, .5))
 map(all_coast_baltic,
     xlim = extent.map[1:2] + c(0.2,-0.2),
     ylim = extent.map[3:4] + c(0.4,-0.1),
-    # col= "dark grey", bg = NA,
-    # main = title.text,
-    # main = "",
     main = "",
     lwd = 0.5,
-    # bg = NA,
     fill = TRUE,
     col = "grey"
     , border = "grey40"
 )
-# ?map
-# ?map
+
+
 axis(side=(1),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = -2, hadj = NA)
 axis(side=(2),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0.6)
 
@@ -261,28 +257,13 @@ axis(side=(2),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0
 f <- ring_data$Age == "Adult" & (as.numeric(format(ring_data$date_ringed, "%Y"))<2000)
 n_adult <- sum(f)
 
-# hist(as.numeric(format(ring_data$date_ringed, "%Y")))
-# length(as.numeric(format(ring_data$date_ringed, "%Y")))
-# sum(as.numeric(format(ring_data$date_ringed, "%Y"))<2000, na.rm = TRUE)
-
 for(i in 1:n_adult){
-  #same year?
-  # y1 <- format(ring_data$date_ringed[ring_data$Age == "Adult"][i], "%Y")
-  # y2 <- format(ring_data$date_recovered[ring_data$Age == "Adult"][i], "%Y")
-  # if(y1 == y2){
-  #   col.use <- "red"
-  # }else col.use <- "black"
-  
-  
-  # >1 year (days)
-  # y1 <- format(ring_data$date_ringed[ring_data$Age == "Nestling"][i], "%Y")
-  # y2 <- format(ring_data$date_recovered[ring_data$Age == "Nestling"][i], "%Y")
+
   if(ring_data$Days[f][i]<365){
     col.use <- "red"
   }else col.use <- "black"
   
   
-  # f <- ring_data$Age == "Adult" & (as.numeric(format(ring_data$date_ringed, "%Y"))<2000)
   # plot start location
   points(ring_data$Ringing.Long..deg.E.[f][i],
          ring_data$Ringing.Lat..deg.N.[f][i],
@@ -308,7 +289,7 @@ box(lwd=1.5)
 map.scale2(ratio = FALSE, lwd.line = 1.5,
            relwidth = 0.35, cex = 0.8)
 
-legend("topleft", "A)", bty="n", cex = 2) 
+legend("topleft", "A", bty="n", cex = 1.8) 
 
 
 # Nestling early
@@ -316,9 +297,6 @@ par( mar = c(1.5, 2, .5, .5))
 map(all_coast_baltic,
     xlim = extent.map[1:2] + c(0.2,-0.2),
     ylim = extent.map[3:4] + c(0.4,-0.1),
-    # col= "dark grey", bg = NA,
-    # main = title.text,
-    # main = "",
     main = "",
     lwd = 0.5,
     # bg = NA,
@@ -326,8 +304,7 @@ map(all_coast_baltic,
     col = "grey"
     , border = "grey40"
 )
-# ?map
-# ?map
+
 axis(side=(1),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = -2, hadj = NA)
 axis(side=(2),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0.6)
 
@@ -335,28 +312,12 @@ axis(side=(2),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0
 f <- ring_data$Age == "Nestling" & (as.numeric(format(ring_data$date_ringed, "%Y"))<2000)
 n_adult <- sum(f)
 
-# hist(as.numeric(format(ring_data$date_ringed, "%Y")))
-# length(as.numeric(format(ring_data$date_ringed, "%Y")))
-# sum(as.numeric(format(ring_data$date_ringed, "%Y"))<2000, na.rm = TRUE)
-
 for(i in 1:n_adult){
-  #same year?
-  # y1 <- format(ring_data$date_ringed[ring_data$Age == "Adult"][i], "%Y")
-  # y2 <- format(ring_data$date_recovered[ring_data$Age == "Adult"][i], "%Y")
-  # if(y1 == y2){
-  #   col.use <- "red"
-  # }else col.use <- "black"
-  
-  
   # >1 year (days)
-  # y1 <- format(ring_data$date_ringed[ring_data$Age == "Nestling"][i], "%Y")
-  # y2 <- format(ring_data$date_recovered[ring_data$Age == "Nestling"][i], "%Y")
   if(ring_data$Days[f][i]<365){
     col.use <- "red"
   }else col.use <- "black"
   
-  
-  # f <- ring_data$Age == "Adult" & (as.numeric(format(ring_data$date_ringed, "%Y"))<2000)
   # plot start location
   points(ring_data$Ringing.Long..deg.E.[f][i],
          ring_data$Ringing.Lat..deg.N.[f][i],
@@ -382,7 +343,7 @@ box(lwd=1.5)
 map.scale2(ratio = FALSE, lwd.line = 1.5,
            relwidth = 0.35, cex = 0.8)
 
-legend("topleft", "B)", bty="n", cex = 2) 
+legend("topleft", "B", bty="n", cex = 1.8) 
 
 
 # Adult late
@@ -390,18 +351,14 @@ par( mar = c(1.5, 2, .5, .5))
 map(all_coast_baltic,
     xlim = extent.map[1:2] + c(0.2,-0.2),
     ylim = extent.map[3:4] + c(0.4,-0.1),
-    # col= "dark grey", bg = NA,
-    # main = title.text,
-    # main = "",
     main = "",
     lwd = 0.5,
-    # bg = NA,
     fill = TRUE,
     col = "grey"
     , border = "grey40"
 )
-# ?map
-# ?map
+
+
 axis(side=(1),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = -2, hadj = NA)
 axis(side=(2),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0.6)
 
@@ -409,28 +366,13 @@ axis(side=(2),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0
 f <- ring_data$Age == "Adult" & (as.numeric(format(ring_data$date_ringed, "%Y"))>1999)
 n_adult <- sum(f)
 
-# hist(as.numeric(format(ring_data$date_ringed, "%Y")))
-# length(as.numeric(format(ring_data$date_ringed, "%Y")))
-# sum(as.numeric(format(ring_data$date_ringed, "%Y"))<2000, na.rm = TRUE)
-
 for(i in 1:n_adult){
-  #same year?
-  # y1 <- format(ring_data$date_ringed[ring_data$Age == "Adult"][i], "%Y")
-  # y2 <- format(ring_data$date_recovered[ring_data$Age == "Adult"][i], "%Y")
-  # if(y1 == y2){
-  #   col.use <- "red"
-  # }else col.use <- "black"
-  
-  
-  # >1 year (days)
-  # y1 <- format(ring_data$date_ringed[ring_data$Age == "Nestling"][i], "%Y")
-  # y2 <- format(ring_data$date_recovered[ring_data$Age == "Nestling"][i], "%Y")
+
   if(ring_data$Days[f][i]<365){
     col.use <- "red"
   }else col.use <- "black"
   
   
-  # f <- ring_data$Age == "Adult" & (as.numeric(format(ring_data$date_ringed, "%Y"))<2000)
   # plot start location
   points(ring_data$Ringing.Long..deg.E.[f][i],
          ring_data$Ringing.Lat..deg.N.[f][i],
@@ -456,7 +398,7 @@ box(lwd=1.5)
 map.scale2(ratio = FALSE, lwd.line = 1.5,
            relwidth = 0.35, cex = 0.8)
 
-legend("topleft", "C)", bty="n", cex = 2) 
+legend("topleft", "C", bty="n", cex = 1.8) 
 
 
 # Nestling late
@@ -464,18 +406,13 @@ par( mar = c(1.5, 2, .5, .5))
 map(all_coast_baltic,
     xlim = extent.map[1:2] + c(0.2,-0.2),
     ylim = extent.map[3:4] + c(0.4,-0.1),
-    # col= "dark grey", bg = NA,
-    # main = title.text,
-    # main = "",
     main = "",
     lwd = 0.5,
-    # bg = NA,
     fill = TRUE,
     col = "grey"
     , border = "grey40"
 )
-# ?map
-# ?map
+
 axis(side=(1),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = -2, hadj = NA)
 axis(side=(2),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0.6)
 
@@ -483,28 +420,13 @@ axis(side=(2),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0
 f <- ring_data$Age == "Nestling" & (as.numeric(format(ring_data$date_ringed, "%Y"))>1999)
 n_adult <- sum(f)
 
-# hist(as.numeric(format(ring_data$date_ringed, "%Y")))
-# length(as.numeric(format(ring_data$date_ringed, "%Y")))
-# sum(as.numeric(format(ring_data$date_ringed, "%Y"))<2000, na.rm = TRUE)
-
 for(i in 1:n_adult){
-  #same year?
-  # y1 <- format(ring_data$date_ringed[ring_data$Age == "Adult"][i], "%Y")
-  # y2 <- format(ring_data$date_recovered[ring_data$Age == "Adult"][i], "%Y")
-  # if(y1 == y2){
-  #   col.use <- "red"
-  # }else col.use <- "black"
-  
-  
-  # >1 year (days)
-  # y1 <- format(ring_data$date_ringed[ring_data$Age == "Nestling"][i], "%Y")
-  # y2 <- format(ring_data$date_recovered[ring_data$Age == "Nestling"][i], "%Y")
+ 
   if(ring_data$Days[f][i]<365){
     col.use <- "red"
   }else col.use <- "black"
   
   
-  # f <- ring_data$Age == "Adult" & (as.numeric(format(ring_data$date_ringed, "%Y"))<2000)
   # plot start location
   points(ring_data$Ringing.Long..deg.E.[f][i],
          ring_data$Ringing.Lat..deg.N.[f][i],
@@ -530,9 +452,7 @@ box(lwd=1.5)
 map.scale2(ratio = FALSE, lwd.line = 1.5,
            relwidth = 0.35, cex = 0.8)
 
-legend("topleft", "D)", bty="n", cex = 2) 
-
-
+legend("topleft", "D", bty="n", cex = 1.8) 
 
 
 dev.off()
