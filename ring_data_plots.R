@@ -490,3 +490,7 @@ text(x = 10, y = 65.5, "D", cex = 1.8)
 dev.off()
 
 
+
+
+# Summaries of ringing data -----
+table(ring_data[,c(1,2)])
