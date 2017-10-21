@@ -50,6 +50,11 @@ trips.baltic.hq <- filter(trips.baltic,
                           (n_points >9) &
                             (gps_time_interval_max < 12*60*60))
 
+
+
+
+
+
 # Make some summary plots of data distribution (distance and duration) -----
 hist(trips.baltic.hq$duration_s/60/60/24)
 trips.baltic.hq$duration_days <- trips.baltic.hq$duration_s/60/60/24
@@ -76,6 +81,16 @@ dev.off()
 
 # >150 km
 long_trips <- filter(trips.baltic.hq, coldist_max > 150000)
+
+
+hist(long_trips$gps_time_interval_max/(60*60),
+     ylim = c(0,50))
+abline(v=12*60*60)
+median(long_trips$gps_time_interval_max/(60))
+
+range(long_trips$n_points)
+median(long_trips$n_points)
+hist(long_trips$n_points)
 
 # How many birds do at least one long trip?
 unique(long_trips$ring_number)
