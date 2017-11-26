@@ -43,6 +43,7 @@ all_coast_baltic <- raster::crop(all_coast, raster::extent(c(10, 32, 52, 69)))
 
 save(all_coast_baltic, file = "baltic_coast_and_islands.RData")
 
+# load("baltic_coast_and_islands.RData")
 # plot(all_coast_baltic)
 
 # Check how this looks
@@ -227,10 +228,13 @@ dev.off()
 
 
 # Large overview map 2 -------
-pdf("map_overview_niche_paper.pdf", width = 4, height = 8,
+pdf("map_overview_niche_paper_new.pdf", width = 4, height = 8,
     useDingbats = FALSE)
+
 png("map_overview_niche_paper.png", width = 3, height = 6,
     units= "in", res = 300)
+
+svg("map_overview_niche_paper_new.svg", width = 3, height = 6)
 
 par( mar = c(1.5, 2, .5, .5))
 
@@ -261,15 +265,15 @@ map('worldHires',
     col = "grey",
     border = "grey40")
 # ?map
-axis(side=(1),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = -2, hadj = NA)
-axis(side=(2),las=1, cex.lab = 0.7, cex.axis =0.5, cex = 0.5, padj = 0, hadj = 0.6)
+axis(side=(1),las=1, cex.lab = 1, cex.axis =0.7, cex = 0.7, padj = -2, hadj = NA)
+axis(side=(2),las=1, cex.lab = 1, cex.axis =0.7, cex = 0.7, padj = 0, hadj = 0.6)
 
 ## Scale bar and axis
 box(lwd=2.5)
 
 # Add map scale bar
-map.scale2(0, 72, ratio = FALSE, lwd.line = 1.5,
-           relwidth = 0.35, cex = 0.8)
+map.scale2(-2, 71, ratio = FALSE, lwd.line = 1.5,
+           relwidth = 0.4, cex = 0.9)
 
 
 # Add colony locations + Lund:
