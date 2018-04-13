@@ -62,13 +62,13 @@ map(all_coast_baltic_simple)
 pdf(file ="overview_map4.pdf", width = 2.5, height = 4,
     paper = "special", colormodel = "gray")
 
-pdf(file ="track_map_combined.pdf", width = 5, height = 4,
+pdf(file ="track_map_combined4.pdf", width = 5, height = 4,
     paper = "special", colormodel = "srgb")
 # ?pdf
 # ?pdf
 # ?layout
 layout(matrix(c(1,2), 1, 2, byrow = TRUE),
-       widths=c(2.3,3.6), heights=c(1))
+       widths=c(2.35,3.4), heights=c(1))
 # layout.show(n=2)
 # par(fig=c(0,0.4,0,1), new=TRUE)
 
@@ -120,7 +120,7 @@ points(17.970, 57.289,
 # dev.off()
 
 # GPS track data plotted -------
-# pdf(file ="track_map.pdf",width = 3.5, height = 4,
+# pdf(file ="track_map2.pdf",width = 3.5, height = 4,
 # paper = "special", colormodel = "srgb")
 # pdf(file ="track_map_combined.pdf", width = 6, height = 4,
 #     paper = "special", colormodel = "srgb")
@@ -138,15 +138,24 @@ par( mar = c(0.1, 0.1, 0, 0))
 
 library(dplyr)
 # Flight IDs
-flight_ids <- c(436, 564, 571, 5225,
-                5285, 5917, 14477,
-                16542, 16606, 20104,
-                24234, 30960, 31210, 
-                31321, 31599, 31861,
-                32591, 38745)
+flight_ids <- c(
+                24234, 436, 564,571,
+                5225, 5917, 32591,
+                14477, 16542, 16606,
+                20104, 24611, 30960,
+                38745, 31210, 31321, 31599,
+                31861)
+  
+  
+  # 436, 564, 571, 5225,
+  #               5285, 5917, 14477,
+  #               16542, 16606, 20104,
+  #               24234, 30960, 31210, 
+  #               31321, 31599, 31861,
+  #               32591, 38745, 24611)
 # If excluding 5285
-flight_ids_original <- flight_ids
-flight_ids <- flight_ids[!flight_ids == 5285]
+# flight_ids_original <- flight_ids
+# flight_ids <- flight_ids[!flight_ids == 5285]
 
 
 # Load in GPS tracking data
@@ -163,6 +172,10 @@ points_sub <- dplyr::filter(points_sub,
 # Make sure it is ordered by flight_id then by time
 points_sub <- dplyr::arrange(points_sub, flight_id,
                       date_time)
+
+# Are all flights contained?
+all(flight_ids %in% points_sub$flight_id)
+# Yes! :)
 
 xrange <- range(points_sub$longitude)
 yrange <- range(points_sub$latitude)
@@ -203,22 +216,43 @@ map(gps_area,
 # Colours
 # cols <- rainbow(length(flight_ids))
 # generated at http://tools.medialab.sciences-po.fr/iwanthue/
-cols <- c("#d88f8c",
-          "#4fe077",
-          "#92207a",
-          "#287900",
-          "#7397ff",
-          "#f4731a",
-          "#01a1b4",
-          "#b10054",
-          "#cbcb5d",
-          "#ff6cab",
-          "#90351a",
-          "#975e81")
+cols <- c("#9e0072",
+          "#bfe155",
+          "#7d45b8",
+          "#78eaa4",
+          "#690072",
+          "#008434",
+          "#e889ff",
+          "#e9a629",
+          "#0279e3",
+          "#ff738f",
+          "#003b94",
+          "#ec418c",
+          "#72b9ff",
+          "#370a62",
+          "#c4adff",
+          "#00326f",
+          "#c0678c",
+          "#c09de3")
+  
+  
+  
+  # "#d88f8c",
+  #         "#4fe077",
+  #         "#92207a",
+  #         "#287900",
+  #         "#7397ff",
+  #         "#f4731a",
+  #         "#01a1b4",
+  #         "#b10054",
+  #         "#cbcb5d",
+  #         "#ff6cab",
+  #         "#90351a",
+  #         "#975e81")
 
 # Shuffle (repeatably)
 set.seed(1)
-cols <- sample(cols, 18, replace = TRUE)
+cols <- sample(cols, length(flight_ids), replace = TRUE)
 # dev.off()
 # plot(1:18,1:18, col = cols, pch = 8)
 
